@@ -1,0 +1,25 @@
+
+server:
+  port: 9091
+
+spring:
+  application:
+    name: catalog-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/shopsphere_catalog
+    username: root
+    password: Rushi@12345
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
