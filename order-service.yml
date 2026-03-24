@@ -1,0 +1,21 @@
+server:
+  port: 9092
+
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/shopsphere_order
+    username: root
+    password: Rushi@12345   # your password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
