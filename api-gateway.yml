@@ -68,7 +68,11 @@ eureka:
 # 🔥 SWAGGER AGGREGATION
 # =========================
 springdoc:
+  api-docs:
+    enabled: true
   swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
     urls:
       - name: AUTH-SERVICE
         url: /v3/api-docs/auth
