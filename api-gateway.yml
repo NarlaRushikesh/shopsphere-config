@@ -1,6 +1,3 @@
-server:
-  port: 8083
-
 spring:
   application:
     name: api-gateway
@@ -8,6 +5,9 @@ spring:
   cloud:
     gateway:
       routes:
+        # =========================
+        # NORMAL ROUTES
+        # =========================
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -18,7 +18,26 @@ spring:
           predicates:
             - Path=/products/**
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+        # =========================
+        # SWAGGER DOC ROUTES 🔥
+        # =========================
+        - id: auth-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/v3/api-docs/auth
+          filters:
+            - RewritePath=/v3/api-docs/auth, /v3/api-docs
+
+        - id: catalog-docs
+          uri: lb://CATALOG-SERVICE
+          predicates:
+            - Path=/v3/api-docs/catalog
+          filters:
+            - RewritePath=/v3/api-docs/catalog, /v3/api-docs
+
+        - id: order-docs
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/v3/api-docs/order
+          filters:
+            - RewritePath=/v3/api-docs/order, /v3/api-docs
