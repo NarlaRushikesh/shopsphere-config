@@ -8,9 +8,7 @@ spring:
   cloud:
     gateway:
 
-      # =========================
-      # 🌐 GLOBAL CORS (FIXES YOUR ERROR)
-      # =========================
+      # ✅ GLOBAL CORS
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -21,7 +19,7 @@ spring:
       routes:
 
         # =========================
-        # 🔹 NORMAL SERVICE ROUTES
+        # 🔹 BUSINESS ROUTES
         # =========================
 
         - id: auth-service
@@ -39,31 +37,30 @@ spring:
           predicates:
             - Path=/orders/**
 
-
         # =========================
-        # 🔥 SWAGGER DOC ROUTES
+        # 🔥 SWAGGER ROUTES (FIXED)
         # =========================
 
         - id: auth-docs
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/v3/api-docs/auth
+            - Path=/auth/v3/api-docs
           filters:
-            - RewritePath=/v3/api-docs/auth, /v3/api-docs
+            - RewritePath=/auth/v3/api-docs, /v3/api-docs
 
         - id: catalog-docs
           uri: lb://CATALOG-SERVICE
           predicates:
-            - Path=/v3/api-docs/catalog
+            - Path=/products/v3/api-docs
           filters:
-            - RewritePath=/v3/api-docs/catalog, /v3/api-docs
+            - RewritePath=/products/v3/api-docs, /v3/api-docs
 
         - id: order-docs
           uri: lb://ORDER-SERVICE
           predicates:
-            - Path=/v3/api-docs/order
+            - Path=/orders/v3/api-docs
           filters:
-            - RewritePath=/v3/api-docs/order, /v3/api-docs
+            - RewritePath=/orders/v3/api-docs, /v3/api-docs
 
 
 # =========================
@@ -76,18 +73,22 @@ eureka:
 
 
 # =========================
-# 🔥 SWAGGER AGGREGATION
+# 🔥 SWAGGER AGGREGATION (FIXED)
 # =========================
 springdoc:
   api-docs:
     enabled: true
+
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+
     urls:
       - name: AUTH-SERVICE
-        url: /v3/api-docs/auth
+        url: /auth/v3/api-docs
+
       - name: CATALOG-SERVICE
-        url: /v3/api-docs/catalog
+        url: /products/v3/api-docs
+
       - name: ORDER-SERVICE
-        url: /v3/api-docs/order
+        url: /orders/v3/api-docs
