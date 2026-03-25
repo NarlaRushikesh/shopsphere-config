@@ -23,40 +23,40 @@ spring:
         # =========================
 
         - id: auth-service
-          uri: lb://AUTH-SERVICE
+          uri: lb://auth-service
           predicates:
             - Path=/auth/**
 
         - id: catalog-service
-          uri: lb://CATALOG-SERVICE
+          uri: lb://catalog-service
           predicates:
             - Path=/products/**
 
         - id: order-service
-          uri: lb://ORDER-SERVICE
+          uri: lb://order-service
           predicates:
             - Path=/orders/**
 
         # =========================
-        # 🔥 SWAGGER ROUTES (FIXED)
+        # 🔥 SWAGGER ROUTES
         # =========================
 
         - id: auth-docs
-          uri: lb://AUTH-SERVICE
+          uri: lb://auth-service
           predicates:
             - Path=/auth/v3/api-docs
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs
 
         - id: catalog-docs
-          uri: lb://CATALOG-SERVICE
+          uri: lb://catalog-service
           predicates:
             - Path=/products/v3/api-docs
           filters:
             - RewritePath=/products/v3/api-docs, /v3/api-docs
 
         - id: order-docs
-          uri: lb://ORDER-SERVICE
+          uri: lb://order-service
           predicates:
             - Path=/orders/v3/api-docs
           filters:
@@ -73,7 +73,7 @@ eureka:
 
 
 # =========================
-# 🔥 SWAGGER AGGREGATION (FIXED)
+# 🔥 SWAGGER AGGREGATION
 # =========================
 springdoc:
   api-docs:
