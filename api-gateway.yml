@@ -7,7 +7,6 @@ spring:
 
   cloud:
     gateway:
-
       # ✅ GLOBAL CORS
       globalcors:
         corsConfigurations:
@@ -17,11 +16,9 @@ spring:
             allowedHeaders: "*"
 
       routes:
-
         # =========================
         # 🔹 BUSINESS ROUTES
         # =========================
-
         - id: auth-service
           uri: lb://auth-service
           predicates:
@@ -39,29 +36,30 @@ spring:
 
         # =========================
         # 🔥 SWAGGER ROUTES
+        # 🔧 FIX: RewritePath must use proper regex replacement syntax
+        #         Old (broken): RewritePath=/auth/v3/api-docs, /v3/api-docs
+        #         New (correct): RewritePath=/auth/v3/api-docs, /v3/api-docs  ← needs regex group
         # =========================
-
         - id: auth-docs
           uri: lb://auth-service
           predicates:
             - Path=/auth/v3/api-docs
           filters:
-            - RewritePath=/auth/v3/api-docs, /v3/api-docs
+            - RewritePath=/auth(?<segment>.*), ${segment}   # 🔧 FIX: correct regex rewrite
 
         - id: catalog-docs
           uri: lb://catalog-service
           predicates:
             - Path=/products/v3/api-docs
           filters:
-            - RewritePath=/products/v3/api-docs, /v3/api-docs
+            - RewritePath=/products(?<segment>.*), ${segment}   # 🔧 FIX: correct regex rewrite
 
         - id: order-docs
           uri: lb://order-service
           predicates:
             - Path=/orders/v3/api-docs
           filters:
-            - RewritePath=/orders/v3/api-docs, /v3/api-docs
-
+            - RewritePath=/orders(?<segment>.*), ${segment}   # 🔧 FIX: correct regex rewrite
 
 # =========================
 # 🔹 EUREKA CONFIG
@@ -71,24 +69,19 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-
 # =========================
 # 🔥 SWAGGER AGGREGATION
 # =========================
 springdoc:
   api-docs:
     enabled: true
-
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
-
     urls:
       - name: AUTH-SERVICE
         url: /auth/v3/api-docs
-
       - name: CATALOG-SERVICE
         url: /products/v3/api-docs
-
       - name: ORDER-SERVICE
         url: /orders/v3/api-docs
