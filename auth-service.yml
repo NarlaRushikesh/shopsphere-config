@@ -28,5 +28,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
   instance:
-    hostname: localhost
     prefer-ip-address: false
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: localhost
+    ip-address: 127.0.0.1
+    non-secure-port: ${server.port}
+    non-secure-port-enabled: true
