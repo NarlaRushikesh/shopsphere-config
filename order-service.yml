@@ -8,12 +8,21 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/shopsphere_order
     username: root
-    password: Rushi@12345   # your password
+    password: Rushi@12345
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+# ✅ ADD THIS (Swagger fix)
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
 
 eureka:
   client:
