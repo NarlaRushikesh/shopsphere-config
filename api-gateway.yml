@@ -7,6 +7,17 @@ spring:
 
   cloud:
     gateway:
+
+      # =========================
+      # 🌐 GLOBAL CORS (FIXES YOUR ERROR)
+      # =========================
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
       routes:
 
         # =========================
